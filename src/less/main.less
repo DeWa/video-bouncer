@@ -1,0 +1,42 @@
+html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        overflow: hidden;
+    }
+
+	#loader {
+		position: fixed;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		background: url('../../assets/images/loader.gif') 50% 50% no-repeat rgb(250,250,250);
+    background-size: 100px;
+	}
+
+  #bgvid {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translate(-50%, -50%);
+    background: url('../../assets/images/poster.jpg');
+    background-size: cover;
+  }
+
+  #mobileText {
+    display: none;
+  }
+
+  @media screen and (max-device-width: 800px) {
+    #mobileText {
+      color: white;
+      display: block;
+    }
+  }

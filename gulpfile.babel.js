@@ -21,7 +21,9 @@ gulp.task('browserSync', function() {
         options: {
             reloadDelay: 250
         },
-        notify: false
+        notify: false,
+        files: ["src/**/*"],
+        open: false
     });
 });
 
@@ -38,7 +40,8 @@ gulp.task('scripts', () => {
 
 gulp.task('scripts:vendor', function(callback) {
   return gulp.src([
-      './node_modules/pixi.js/bin/pixi.min.js',
+      './node_modules/pixi.js/dist/pixi.min.js',
+      './node_modules/jquery/dist/jquery.min.js'
     ])
     .pipe(plumber({
       errorHandler: function (err) {
@@ -49,6 +52,7 @@ gulp.task('scripts:vendor', function(callback) {
     .pipe(concat('vendor.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'))
+    .pipe(browserSync.reload({stream: true}))
 });
 
 gulp.task('styles', () => {
@@ -60,15 +64,16 @@ gulp.task('styles', () => {
     }))
     .pipe(autoprefixer())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dist/css'));
+    .pipe(gulp.dest('./dist/css'))
+    .pipe(browserSync.reload({stream: true}))
 });
 
 //compressing images & handle SVG files
 gulp.task('images', function(tmp) {
-    gulp.src(['src/assets/images/*.jpg', 'src/assets/images/*.png'])
+    gulp.src(['src/assets/images/**/*.jpg', 'src/assets/images/**/*.png'])
         //prevent pipe breaking caused by errors from gulp plugins
         .pipe(plumber())
-        .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
+        .pipe(imagemin({ optimizationLevel: 8, progressive: true, interlaced: true }))
         .pipe(gulp.dest('dist/assets/images'));
 });
 
@@ -77,9 +82,24 @@ gulp.task('html', function() {
         .pipe(plumber())
         .pipe(gulp.dest('dist'))
         .pipe(browserSync.reload({stream: true}))
-        //catch errors
-        .on('error', gutil.log);
 });
+
+gulp.task('music', function() {
+    return gulp.src('src/assets/music/**/*')
+        .pipe(plumber())
+        .pipe(gulp.dest('dist/assets/music'))
+        .pipe(browserSync.reload({stream: true}))
+});
+
+gulp.task('videos', function() {
+    return gulp.src('src/assets/videos/**/*')
+        .pipe(plumber())
+        .pipe(gulp.dest('dist/assets/videos'))
+        .pipe(browserSync.reload({stream: true}))
+});
+
+gulp.task('assets', ['music', 'videos']);
+
 
 // Cleans compiled directory
 gulp.task('clean', shell.task([
@@ -98,9 +118,11 @@ gulp.task('scaffold', shell.task([
   ]
 ));
 
-gulp.task('default', ['browserSync', 'html', 'scripts', 'scripts:vendor', 'images', 'styles'], function() {
-    gulp.watch('src/js/**/*', ['scripts']);
-    gulp.watch('src/less/**', ['styles']);
-    gulp.watch('app/assets/images/**', ['images']);
-    gulp.watch('app/*.html', ['html']);
+gulp.task('watch', function() {
+  gulp.watch('src/js/**/*.js', ['scripts']);
+  gulp.watch('src/less/**/*.less', ['styles']);
+  gulp.watch('src/assets/images/**/*', ['images']);
+  gulp.watch('src/*.html', ['html']);
 });
+
+gulp.task('default', ['browserSync', 'html', 'scripts', 'images', 'styles', 'watch']);

@@ -1,68 +1,29 @@
 <!DOCTYPE html>
 <html lang="fi">
-    <head>
-        <title>Mitäs tänään?</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    </head>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-	$(window).load(function() {
-		$(".loader").fadeOut("slow");
-		var myaudio = $("#myaudio").get(0);
-				myaudio.play();
-	});
-	</script>
-    <style>
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        overflow: hidden;
-    }
-	.loader {
-		position: fixed;
-		left: 0px;
-		top: 0px;
-		width: 100%;
-		height: 100%;
-		z-index: 9999;
-		background: url('loader.gif') 50% 50% no-repeat rgb(249,249,249);
-	}
-    canvas {
-        z-index:1;
-        position: absolute;
-    }
-	video#bgvid {
-		position: fixed; right: 0; bottom: 0;
-		min-width: 100%; min-height: 100%;
-		width: auto; height: auto; z-index: -100;
-		background: url(polina.jpg) no-repeat;
-	background-size: cover;
-	}
-    body{
-        background: #000000;
-    }
+  <head>
+    <title>Mikä vuodenaika?</title>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+      <meta property="og:title" content="TODFO" />
+      <meta property="og:description" content="Happy Christmas!" />
+      <meta property="og:type" content="article" />
+      <meta property="og:image" content="" />
+        <link rel="stylesheet" href="./css/main.css">
+  </head>
+  <body>
+    <div id="loader"></div>
+    <div id="mobileText">Hey mobile user! Press here to start the video!</div>
+  	<audio preload loop id="music">
+  	 <source src="./assets/music/music.mp3" type="audio/mpeg"></source>
+  	 Your browser does not support the audio element.
+  	</audio>
 
-	<!--[if lt IE 9]>
-	<script>
-	document.createElement('video');
-	</script>
-	<![endif]-->
-
-	video { display: block; }
-    </style>
-    <body>
-	<div class="loader"></div>
-	<audio preload loop id="myaudio">
-	 <source src="music.ogg" type="audio/ogg"></source>
-	 <source src="music.mp3" type="audio/mpeg"></source>
-	 Your browser does not support the audio element.
-	</audio>
-	<video autoplay loop poster="poster.jpg" id="bgvid">
-		<source src="hedberg.mp4" type="video/mp4">
-		<source src="hedberg.ogv" type="video/ogg">
-		<source src="hedberg.mov" type="video/mov">
-	</video>
-    <canvas style="position: absolute;" id="taulu" > EI TOIMI</canvas>
-		</body>
+  	<video playsinline autoplay muted loop poster="./assets/images/poster.jpg" id="bgvid">
+      <source src="./assets/videos/video.webm" type="video/webm; codecs=vp9,vorbis">
+  		<source src="./assets/videos/video.mp4" type="video/mp4">
+  	</video>
+    <script type="text/javascript" src="./js/vendor.js"></script>
+    <script type="text/javascript" src="./js/bundle.js"></script>
+	</body>
 </html>
